@@ -1,10 +1,7 @@
-# README #
+# Avocado #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Use Avocado to create cycling workouts long with playlists of songs.
 
-### Avocado ###
-
-* Use Avocado to create cycling workouts long with playlists of songs.
 * 0.0.1
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
