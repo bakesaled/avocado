@@ -1,0 +1,21 @@
+{
+  "name": "avocado",
+  "version": "0.0.1",
+  "author": "bakesaled",
+  "license": "none",
+  "scripts": {
+    "start": "npm run serve:dev",
+    "serve:dev": "nodemon --exec ts-node ./src/index.ts",
+    "serve:prod": "ts-node --fast ./src/index.ts",
+    "test": "echo \"Error: no test specified\" &7 exit 1"
+  },
+  "dependencies": {
+    "@types/express": "^4.0.37",
+    "codelyzer": "^3.0.1",
+    "express": "^4.15.4",
+    "nodemon": "^1.11.0",
+    "ts-node": "^3.3.0",
+    "tslint": "~5.3.2",
+    "typescript": "^2.4.1"
+  }
+}
