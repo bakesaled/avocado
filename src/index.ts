@@ -1,3 +1,3 @@
-import { Server } from './server';
+import { AppServer } from './server';
 
-Server.bootstrap();
+AppServer.bootstrap();
