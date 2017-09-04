@@ -1,6 +1,6 @@
 # Avocado #
 
-Use Avocado to create cycling workouts long with playlists of songs.
+A strategy game where you run a country.
 
 * 0.0.1
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
