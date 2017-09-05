@@ -1,2 +1,4 @@
 https://socket.io/get-started/chat/
 https://github.com/creationix/adventure
+https://github.com/REPTILEHAUS/reptilehaus-ng2-socket.io-chat
+http://machina-js.org/
