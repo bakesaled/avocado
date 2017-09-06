@@ -3,3 +3,4 @@ https://github.com/creationix/adventure
 https://github.com/REPTILEHAUS/reptilehaus-ng2-socket.io-chat
 http://machina-js.org/
 https://github.com/eonarheim/TypeState
+https://github.com/qiao/PathFinding.js
