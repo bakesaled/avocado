@@ -5,6 +5,7 @@ import { Server } from 'http';
 import * as socketIO from 'socket.io';
 import { Intersection } from './state-machines/intersection';
 import { Grid } from './grid';
+import { GameController } from './controllers/game.controller';
 
 export class AppServer {
   private intersection: Intersection;
@@ -45,10 +46,13 @@ export class AppServer {
 
     this.intersection = new Intersection('main and fake');
 
+    const gameController = new GameController();
+    gameController.listen(this.io);
+
     this.httpServer.listen(3000, () => {
 
       /**TypeState**/
-      this.intersection.init();
+      // this.intersection.init();
       this.buildGrid();
     });
   }
