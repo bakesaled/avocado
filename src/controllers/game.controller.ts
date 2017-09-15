@@ -1,6 +1,12 @@
+import { PlayerService } from '../services/player.service';
+import { NameService } from '../services/name.service';
+
 export class GameController {
+  private nameService: NameService;
+  private playerService: PlayerService
   constructor() {
-    // this.runGameCycle();
+    this.nameService = new NameService();
+    this.playerService = new PlayerService(this.nameService);
   }
 
   public listen(io: SocketIO.Server) {
@@ -8,13 +14,14 @@ export class GameController {
 
     io.sockets.on('connection', (socket) => {
       socket.on('new player', (name, image) => {
-        console.log('new player added:', name);
-this.runGameCycle();
+        this.playerService.addPlayer(socket);
+        this.runGameCycle();
+
       });
     });
   }
 
-  private runGameCycle() {
+  public runGameCycle() {
     console.log('game cycle is running');
     setTimeout(() => {
       this.runGameCycle();
