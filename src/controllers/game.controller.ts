@@ -1,10 +1,14 @@
 import { PlayerService } from '../services/player.service';
 import { NameService } from '../services/name.service';
+import { BoardService } from '../services/board.service';
 
 export class GameController {
   private nameService: NameService;
-  private playerService: PlayerService
+  private playerService: PlayerService;
+  private boardService: BoardService;
+
   constructor() {
+    this.boardService = new BoardService();
     this.nameService = new NameService();
     this.playerService = new PlayerService(this.nameService);
   }
