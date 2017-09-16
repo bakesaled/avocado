@@ -11,7 +11,7 @@ export class PlayerService {
     const newPlayer = this.createPlayer(socket.id, playerName);
 
     socket.emit('new player info', newPlayer.name);
-    socket.emit('board info', BoardConfig.boards);
+    socket.emit('board info', BoardConfig.layers);
 
     console.log('player created', playerName);
   }

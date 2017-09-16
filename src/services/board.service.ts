@@ -1,17 +1,17 @@
-import { Board } from '../models/board';
 import { BoardConfig } from '../configs/board.config';
+import { Layer } from '../models/layer';
 
 export class BoardService {
-  public backgroundBoard: Board;
-  public trafficBoard: Board;
+  public backgroundLayer: Layer;
+  public trafficLayer: Layer;
 
   constructor() {
     this.initializeBoards();
   }
 
   public initializeBoards() {
-    this.backgroundBoard = new Board(BoardConfig.boards.backgroundBoard.rows, BoardConfig.boards.backgroundBoard.columns);
-    this.trafficBoard = new Board(BoardConfig.boards.trafficBoard.rows, BoardConfig.boards.trafficBoard.columns);
+    this.backgroundLayer = new Layer(BoardConfig.layers.backgroundLayer.rows, BoardConfig.layers.backgroundLayer.columns);
+    this.trafficLayer = new Layer(BoardConfig.layers.trafficLayer.rows, BoardConfig.layers.trafficLayer.columns);
 
   }
 }
