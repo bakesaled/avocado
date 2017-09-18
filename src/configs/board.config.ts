@@ -1,12 +1,12 @@
 export class BoardConfig {
   public static readonly layers = {
     backgroundLayer: {
-      columns: 20,
-      rows: 20
+      columns: 15,
+      rows: 10
     },
     trafficLayer: {
-      columns: 20,
-      rows: 20
+      columns: 15,
+      rows: 10
     }
   }
 }
