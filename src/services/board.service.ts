@@ -38,7 +38,7 @@ export class BoardService {
     for (let column = 0; column < this.board.backgroundLayer.width; column++) {
       for (let row = 0; row < this.board.backgroundLayer.height; row++) {
         const backgroundCoordTile = this.board.backgroundLayer.coordinateTiles[column][row];
-        const trafficCoordTile = this.board.backgroundLayer.coordinateTiles[column][row];
+        const trafficCoordTile = this.board.trafficLayer.coordinateTiles[column][row];
 
         if (backgroundCoordTile.isStreet() && !trafficCoordTile.isOccupied()) {
           unoccupedCoordinates.push(new Coordinate(column, row));
