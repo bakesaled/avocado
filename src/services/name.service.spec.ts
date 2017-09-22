@@ -1,6 +1,6 @@
 import { NameService } from './name.service';
 
-describe("NameService", () => {
+describe('NameService', () => {
   const numberOfNamesToTest = 500;
 
   it('should generate a new unused player name', () => {

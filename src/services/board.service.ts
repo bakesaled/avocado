@@ -40,7 +40,7 @@ export class BoardService {
         const backgroundCoordTile = this.board.backgroundLayer.coordinateTiles[column][row];
         const trafficCoordTile = this.board.backgroundLayer.coordinateTiles[column][row];
 
-        if (backgroundCoordTile.isStreet() && trafficCoordTile.isUnoccupied()) {
+        if (backgroundCoordTile.isStreet() && !trafficCoordTile.isOccupied()) {
           unoccupedCoordinates.push(new Coordinate(column, row));
         }
       }
@@ -57,5 +57,9 @@ export class BoardService {
 
   public isStreet(coordinate: Coordinate) {
     return this.board.backgroundLayer.coordinateTiles[coordinate.x][coordinate.y].isStreet();
+  }
+
+  public isOccupied(coordinate: Coordinate) {
+    return this.board.trafficLayer.coordinateTiles[coordinate.x][coordinate.y].isOccupied();
   }
 }

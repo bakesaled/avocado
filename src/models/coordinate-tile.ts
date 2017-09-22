@@ -16,8 +16,8 @@ export class CoordinateTile {
     this.tile.vehicleId = 0;
   }
 
-  public isUnoccupied() {
-    return !this.tile.vehicleId;
+  public isOccupied() {
+    return this.tile.vehicleId;
   }
 
   public isStreet() {
