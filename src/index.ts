@@ -1,3 +1,4 @@
 import { AppServer } from './server';
 
-AppServer.bootstrap();
+const appServer = AppServer.bootstrap();
+appServer.init();

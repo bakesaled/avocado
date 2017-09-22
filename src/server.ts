@@ -14,7 +14,6 @@ export class AppServer {
   public httpServer: Server;
   public io: SocketIO.Server;
 
-
   public static bootstrap(): AppServer {
     return new AppServer();
   }
@@ -23,15 +22,16 @@ export class AppServer {
     this.app = express();
     this.httpServer = http.createServer(this.app); // new Server(this.app);
     this.io = socketIO.listen(this.httpServer);
-
-    this.init();
+    this.initRoot();
   }
 
-  private init() {
+  private initRoot() {
     this.app.get('/', function(req, res){
       res.sendFile(__dirname + '/index.html');
     });
+  }
 
+  public init() {
     this.io.on('connection', (socket) => {
       console.log(' a user connected');
       socket.on('disconnect', () => {

@@ -7,7 +7,8 @@
     "start": "npm run serve:dev",
     "serve:dev": "nodemon --exec ts-node ./src/index.ts",
     "serve:prod": "ts-node --fast ./src/index.ts",
-    "test": "echo \"Error: no test specified\" &7 exit 1"
+    "test": "jasmine-ts \"src/**/*.spec.ts\"",
+    "test:watch": "watch \"npm run test\" src"
   },
   "dependencies": {
     "@types/express": "^4.0.37",
@@ -21,5 +22,14 @@
     "tslint": "~5.3.2",
     "typescript": "^2.4.1",
     "typestate": "^1.0.4"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.6.0",
+    "@types/supertest": "^2.0.3",
+    "jasmine": "^2.8.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "jasmine-ts": "^0.2.1",
+    "supertest": "^3.0.0",
+    "watch": "^1.0.2"
   }
 }
