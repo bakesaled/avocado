@@ -18,6 +18,5 @@ export class CoordinateService {
       case Direction.Right:
         return new Coordinate(currentCoordinate.x + 1, currentCoordinate.y);
     }
-
   }
 }

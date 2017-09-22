@@ -5,7 +5,9 @@ describe("Server", () => {
   it('should return 200 OK', () => {
     const server = new AppServer();
     request(server.app).get('/').expect(200, function(err: any){
-      console.log(err);
+      if (err) {
+        console.log(err);
+      }
     });
   });
 });
