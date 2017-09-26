@@ -5,6 +5,7 @@ import { CoordinateTile } from '../models/coordinate-tile';
 import { Coordinate } from '../models/coordinate';
 import { Board } from '../models/board';
 import { LevelConfig } from '../configs/levels/level.config';
+import { Street } from '../models/street';
 
 export class BoardService {
   public board: Board;
@@ -51,6 +52,11 @@ export class BoardService {
     return unoccupedCoordinates[Math.floor(Math.random() * unoccupedCoordinates.length)];
   }
 
+  public addStreetOccupancy(street: Street) {
+    const coordinateTile: CoordinateTile = this.board.backgroundLayer.coordinateTiles[street.coordinate.x][street.coordinate.y];
+    coordinateTile.setStreetTile(street);
+  }
+
   public isOutOfBounds(coordinate: Coordinate) {
     return coordinate.x < 0 || coordinate.x > this.board.backgroundLayer.width || coordinate.y < 0 || coordinate.y > this.board.backgroundLayer.height;
   }
@@ -61,5 +67,9 @@ export class BoardService {
 
   public isOccupied(coordinate: Coordinate) {
     return this.board.trafficLayer.coordinateTiles[coordinate.x][coordinate.y].isOccupied();
+  }
+
+  public getStreetId(coordinate: Coordinate): number {
+    return this.board.backgroundLayer.coordinateTiles[coordinate.x][coordinate.y].tile.streetId;
   }
 }

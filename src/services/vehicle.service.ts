@@ -5,15 +5,17 @@ import { Vehicle } from '../models/vehicle';
 import { VehicleSpawnService } from './vehicle-spawn.service';
 import { NameService } from './name.service';
 import { ServerConfig } from '../configs/server.config';
+import { StreetMap } from '../models/street-map';
 
 export class VehicleService {
   private vehicleSpawnService: VehicleSpawnService
   constructor(
     private vehicleMap: VehicleMap,
     private boardService: BoardService,
-    private nameService: NameService
+    private nameService: NameService,
+    private streetMap: StreetMap
   ) {
-    this.vehicleSpawnService = new VehicleSpawnService(this.boardService);
+    this.vehicleSpawnService = new VehicleSpawnService(this.boardService, this.streetMap);
   }
 
   public addVehicle(vehicleId: number): Vehicle {
@@ -27,24 +29,23 @@ export class VehicleService {
   }
 
   public createVehicle() {
+    console.log('creating');
     const vehicleId = this.nameService.getVehicleId();
     this.addVehicle(vehicleId);
   }
 
   public moveVehicles() {
     for (let vehicle of this.vehicleMap.getVehicles()) {
-      const originalCoords = vehicle.currentCoordinate;
       this.boardService.removeVehicleOccupancy(vehicle);
       CoordinateService.moveVehicle(vehicle);
       if (this.boardService.isOutOfBounds(vehicle.currentCoordinate)) {
-        console.log('out of bounds');
+        console.log('out of bounds, remove');
         this.vehicleMap.removeVehicle(vehicle.id);
       } else if (!this.boardService.isStreet(vehicle.currentCoordinate)) {
-        console.log('no street, so do not move');
-        vehicle.move(originalCoords);
-        this.boardService.addVehicleOccupancy(vehicle);
-        continue;
+        console.log('no street, remove');
+        this.vehicleMap.removeVehicle(vehicle.id);
       } else {
+        console.log('move');
         this.boardService.addVehicleOccupancy(vehicle);
       }
     }

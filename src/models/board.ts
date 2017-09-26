@@ -4,7 +4,7 @@ import { CoordinateTile } from './coordinate-tile';
 
 export class Board {
   constructor(public backgroundLayer: Layer, public trafficLayer: Layer, private levelConfig: LevelConfig) {
-    this.configureLayerLevel(this.levelConfig.backgroundCoordTiles, backgroundLayer);
+    // this.configureLayerLevel(this.levelConfig.backgroundCoordTiles, backgroundLayer);
     this.configureLayerLevel(this.levelConfig.trafficCoordTiles, trafficLayer);
   }
 

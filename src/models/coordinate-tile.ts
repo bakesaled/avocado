@@ -1,6 +1,7 @@
 import { Coordinate } from './coordinate';
 import { Tile } from './tile';
 import { Vehicle } from './vehicle';
+import { Street } from './street';
 
 export class CoordinateTile {
   constructor(
@@ -14,6 +15,10 @@ export class CoordinateTile {
 
   public clearVehicleTile() {
     this.tile.vehicleId = 0;
+  }
+
+  public setStreetTile(street: Street) {
+    this.tile.streetId = street.id;
   }
 
   public isOccupied() {

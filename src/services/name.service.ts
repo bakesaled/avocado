@@ -1,9 +1,12 @@
 export class NameService {
   private usedPlayerNames: Set<string>;
   private usedVehicleIds: Set<number>;
+  private usedStreetIds: Set<number>;
+  
   constructor() {
     this.usedPlayerNames = new Set();
     this.usedVehicleIds = new Set();
+    this.usedStreetIds = new Set();
   }
   public getPlayerName(): string {
     let name: string;
@@ -23,6 +26,16 @@ export class NameService {
 
     this.usedVehicleIds.add(vehicleId);
     return vehicleId;
+  }
+
+  public getStreetId(): number {
+    let streetId;
+    do {
+      streetId = this.getRandomNumber();
+    } while (this.usedStreetIds.has(streetId));
+
+    this.usedStreetIds.add(streetId);
+    return streetId;
   }
 
   private generateName(): string {

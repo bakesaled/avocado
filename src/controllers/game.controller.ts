@@ -7,6 +7,9 @@ import { Level1Config } from '../configs/levels/level1.config';
 import { VehicleService } from '../services/vehicle.service';
 import { VehicleMap } from '../models/vehicle-map';
 import { LevelConfig } from '../configs/levels/level.config';
+import { StreetMap } from '../models/street-map';
+import { StreetService } from '../services/street.service';
+import { ServerConfig } from '../configs/server.config';
 
 export class GameController {
   private nameService: NameService;
@@ -16,14 +19,18 @@ export class GameController {
   private vehicleMap: VehicleMap;
   private vehicleService: VehicleService;
   private levelConfig: LevelConfig;
+  private streetMap: StreetMap;
+  private streetService: StreetService;
 
   constructor() {
     this.levelConfig = new Level1Config();
+    this.streetMap = new StreetMap();
     this.vehicleMap = new VehicleMap();
     this.boardService = new BoardService(this.levelConfig);
     this.nameService = new NameService();
     this.notificationService = new NotificationService();
-    this.vehicleService = new VehicleService(this.vehicleMap, this.boardService, this.nameService);
+    this.streetService = new StreetService(this.streetMap, this.boardService, this.nameService);
+    this.vehicleService = new VehicleService(this.vehicleMap, this.boardService, this.nameService, this.streetMap);
     this.playerService = new PlayerService(this.nameService);
   }
 
@@ -34,6 +41,7 @@ export class GameController {
     io.sockets.on('connection', (socket) => {
       socket.on('new player', (name, image) => {
         this.playerService.addPlayer(socket);
+        this.streetService.generateStreets(this.levelConfig);
         this.runGameCycle();
 
       });
@@ -45,9 +53,10 @@ export class GameController {
 
     this.vehicleService.moveVehicles();
     this.vehicleService.generateVehicles();
+    console.log('mapcount', this.vehicleMap.toJSON().length);
 
     const gameState = new GameState(
-      this.levelConfig.backgroundCoordTiles,
+      this.streetMap.toJSON(),
       this.levelConfig.trafficCoordTiles,
       this.vehicleMap.toJSON()
     );
@@ -55,6 +64,6 @@ export class GameController {
 
     setTimeout(() => {
       this.runGameCycle();
-    }, 1000);
+    }, 1000 / ServerConfig.STARTING_FPS);
   }
 }
