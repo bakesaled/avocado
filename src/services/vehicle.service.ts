@@ -29,7 +29,6 @@ export class VehicleService {
   }
 
   public createVehicle() {
-    console.log('creating');
     const vehicleId = this.nameService.getVehicleId();
     this.addVehicle(vehicleId);
   }
@@ -39,13 +38,10 @@ export class VehicleService {
       this.boardService.removeVehicleOccupancy(vehicle);
       CoordinateService.moveVehicle(vehicle);
       if (this.boardService.isOutOfBounds(vehicle.currentCoordinate)) {
-        console.log('out of bounds, remove');
         this.vehicleMap.removeVehicle(vehicle.id);
       } else if (!this.boardService.isStreet(vehicle.currentCoordinate)) {
-        console.log('no street, remove');
         this.vehicleMap.removeVehicle(vehicle.id);
       } else {
-        console.log('move');
         this.boardService.addVehicleOccupancy(vehicle);
       }
     }

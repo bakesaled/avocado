@@ -13,7 +13,7 @@ export class NotificationService {
   public notifyGameState(gameState: GameState) {
     // const playerSocket = this.sockets.connected[playerId];
     // if (playerSocket) {
-    console.log('notifyGameState');
+    // console.log('notifyGameState');
       this.sockets.emit('new game state', gameState);
     // }
   }

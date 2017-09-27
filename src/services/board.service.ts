@@ -4,7 +4,6 @@ import { Vehicle } from '../models/vehicle';
 import { CoordinateTile } from '../models/coordinate-tile';
 import { Coordinate } from '../models/coordinate';
 import { Board } from '../models/board';
-import { LevelConfig } from '../configs/levels/level.config';
 import { Street } from '../models/street';
 
 export class BoardService {
@@ -12,15 +11,14 @@ export class BoardService {
   // public backgroundLayer: Layer;
   // public trafficLayer: Layer;
 
-  constructor(levelConfig: LevelConfig) {
-    this.initializeBoards(levelConfig);
+  constructor() {
+    this.initializeBoards();
   }
 
-  public initializeBoards(levelConfig: LevelConfig) {
+  public initializeBoards() {
     this.board = new Board(
       new Layer(BoardConfig.layers.backgroundLayer.rows, BoardConfig.layers.backgroundLayer.columns),
       new Layer(BoardConfig.layers.trafficLayer.rows, BoardConfig.layers.trafficLayer.columns),
-      levelConfig
     );
   }
 

@@ -10,6 +10,8 @@ import { LevelConfig } from '../configs/levels/level.config';
 import { StreetMap } from '../models/street-map';
 import { StreetService } from '../services/street.service';
 import { ServerConfig } from '../configs/server.config';
+import Socket = SocketIO.Socket;
+import { PlayerMap } from '../models/player-map';
 
 export class GameController {
   private nameService: NameService;
@@ -21,39 +23,51 @@ export class GameController {
   private levelConfig: LevelConfig;
   private streetMap: StreetMap;
   private streetService: StreetService;
+  private playerMap: PlayerMap;
 
   constructor() {
     this.levelConfig = new Level1Config();
     this.streetMap = new StreetMap();
     this.vehicleMap = new VehicleMap();
-    this.boardService = new BoardService(this.levelConfig);
+    this.playerMap = new PlayerMap();
+    this.boardService = new BoardService();
     this.nameService = new NameService();
     this.notificationService = new NotificationService();
     this.streetService = new StreetService(this.streetMap, this.boardService, this.nameService);
     this.vehicleService = new VehicleService(this.vehicleMap, this.boardService, this.nameService, this.streetMap);
-    this.playerService = new PlayerService(this.nameService);
+    this.playerService = new PlayerService(this.nameService, this.playerMap);
   }
 
   public listen(io: SocketIO.Server) {
     console.log('game controller is listening...');
     this.notificationService.init(io.sockets);
 
-    io.sockets.on('connection', (socket) => {
-      socket.on('new player', (name, image) => {
+    io.sockets.on(ServerConfig.IO.CONNECTION, (socket: Socket) => {
+      socket.on(ServerConfig.IO.INCOMING.NEW_PLAYER, (name, image) => {
         this.playerService.addPlayer(socket);
         this.streetService.generateStreets(this.levelConfig);
         this.runGameCycle();
-
+      });
+      socket.on(ServerConfig.IO.INCOMING.DISCONNECT, () => {
+        console.log('disco', socket.id);
+        this.playerService.disconnect(socket.id);
       });
     });
   }
 
   public runGameCycle() {
-    console.log('game cycle is running');
+    if (this.playerMap.getNumberOfPlayers() === 0) {
+      console.log('game paused');
+      this.boardService.initializeBoards();
+      this.nameService.reinitialize();
+      this.playerMap.reinitialize();
+      this.vehicleMap.reinitialize();
+      this.streetMap.reinitialize();
+      return;
+    }
 
     this.vehicleService.moveVehicles();
     this.vehicleService.generateVehicles();
-    console.log('mapcount', this.vehicleMap.toJSON().length);
 
     const gameState = new GameState(
       this.streetMap.toJSON(),

@@ -8,6 +8,13 @@ export class NameService {
     this.usedVehicleIds = new Set();
     this.usedStreetIds = new Set();
   }
+
+  public reinitialize() {
+    this.usedPlayerNames.clear();
+    this.usedVehicleIds.clear();
+    this.usedStreetIds.clear();
+  }
+
   public getPlayerName(): string {
     let name: string;
     do {

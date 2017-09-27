@@ -17,7 +17,6 @@ export class VehicleSpawnService {
 
 
     if (spawnCoordinate === null) {
-      console.log('no spawn coordinate');
       return;
     }
 
@@ -33,7 +32,6 @@ export class VehicleSpawnService {
     // } else {
     //   newDirection = Direction.Right;
     // }
-console.log('spawn coordinate', spawnCoordinate);
     vehicle.setStartingSpawn(newDirection, spawnCoordinate);
     this.boardService.addVehicleOccupancy(vehicle);
   }
