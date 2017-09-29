@@ -12,6 +12,7 @@ import { StreetService } from '../services/street.service';
 import { ServerConfig } from '../configs/server.config';
 import Socket = SocketIO.Socket;
 import { PlayerMap } from '../models/player-map';
+import { StatBoard } from '../models/stat-board';
 
 export class GameController {
   private nameService: NameService;
@@ -24,9 +25,11 @@ export class GameController {
   private streetMap: StreetMap;
   private streetService: StreetService;
   private playerMap: PlayerMap;
+  private statBoard: StatBoard;
 
   constructor() {
     this.levelConfig = new Level1Config();
+    this.statBoard = new StatBoard();
     this.streetMap = new StreetMap();
     this.vehicleMap = new VehicleMap();
     this.playerMap = new PlayerMap();
@@ -34,8 +37,8 @@ export class GameController {
     this.nameService = new NameService();
     this.notificationService = new NotificationService();
     this.streetService = new StreetService(this.streetMap, this.boardService, this.nameService);
-    this.vehicleService = new VehicleService(this.vehicleMap, this.boardService, this.nameService, this.streetMap);
-    this.playerService = new PlayerService(this.nameService, this.playerMap);
+    this.vehicleService = new VehicleService(this.vehicleMap, this.boardService, this.nameService, this.streetMap, this.playerMap, this.statBoard);
+    this.playerService = new PlayerService(this.nameService, this.playerMap, this.statBoard);
   }
 
   public listen(io: SocketIO.Server) {
@@ -46,7 +49,7 @@ export class GameController {
       socket.on(ServerConfig.IO.INCOMING.NEW_PLAYER, (name, image) => {
         this.playerService.addPlayer(socket);
         this.streetService.generateStreets(this.levelConfig);
-        this.runGameCycle();
+        this.runGameCycle(socket);
       });
       socket.on(ServerConfig.IO.INCOMING.DISCONNECT, () => {
         console.log('disco', socket.id);
@@ -55,7 +58,7 @@ export class GameController {
     });
   }
 
-  public runGameCycle() {
+  public runGameCycle(socket: Socket) {
     if (this.playerMap.getNumberOfPlayers() === 0) {
       console.log('game paused');
       this.boardService.initializeBoards();
@@ -63,21 +66,25 @@ export class GameController {
       this.playerMap.reinitialize();
       this.vehicleMap.reinitialize();
       this.streetMap.reinitialize();
+      this.statBoard.reinitialize();
       return;
     }
 
+    this.statBoard.changePopulation();
     this.vehicleService.moveVehicles();
     this.vehicleService.generateVehicles();
 
     const gameState = new GameState(
       this.streetMap.toJSON(),
       this.levelConfig.trafficCoordTiles,
-      this.vehicleMap.toJSON()
+      this.vehicleMap.toJSON(),
+      this.statBoard.getPlayerStats(socket.id),
+      this.statBoard.toJSON()
     );
     this.notificationService.notifyGameState(gameState);
 
     setTimeout(() => {
-      this.runGameCycle();
+      this.runGameCycle(socket);
     }, 1000 / ServerConfig.STARTING_FPS);
   }
 }

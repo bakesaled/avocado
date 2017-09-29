@@ -1,7 +1,7 @@
 export const ServerConfig = {
-  STARTING_FPS: 8,
+  STARTING_FPS: 4,
   VEHICLE: {
-    SPAWN_RATE: 0.5
+    SPAWN_RATE: 0.01
   },
   IO: {
     CONNECTION: 'connection',

@@ -20,7 +20,7 @@ export class PlayerMap {
   }
 
   public getPlayers() {
-    return this.players.values();
+    return this.players;
   }
 
   public getNumberOfPlayers() {

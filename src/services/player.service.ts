@@ -3,11 +3,13 @@ import { Player } from '../models/player';
 import Socket = SocketIO.Socket;
 import { BoardConfig } from '../configs/board.config';
 import { PlayerMap } from '../models/player-map';
+import { StatBoard } from '../models/stat-board';
 
 export class PlayerService {
   constructor(
     private nameService: NameService,
-    private playerMap: PlayerMap
+    private playerMap: PlayerMap,
+    private playerStatBoard: StatBoard
   ){}
 
   public addPlayer(socket: Socket) {
@@ -32,6 +34,7 @@ export class PlayerService {
   private createPlayer(id: string, name: string) {
     const player = new Player(id, name);
     this.playerMap.addPlayer(player);
+    this.playerStatBoard.addPlayer(player.id, player.name);
     return player;
   }
 }

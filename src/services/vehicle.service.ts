@@ -4,8 +4,11 @@ import { BoardService } from './board.service';
 import { Vehicle } from '../models/vehicle';
 import { VehicleSpawnService } from './vehicle-spawn.service';
 import { NameService } from './name.service';
-import { ServerConfig } from '../configs/server.config';
 import { StreetMap } from '../models/street-map';
+import { PlayerMap } from '../models/player-map';
+import { ServerConfig } from '../configs/server.config';
+import { StatBoard } from '../models/stat-board';
+import { Player } from '../models/player';
 
 export class VehicleService {
   private vehicleSpawnService: VehicleSpawnService
@@ -13,7 +16,9 @@ export class VehicleService {
     private vehicleMap: VehicleMap,
     private boardService: BoardService,
     private nameService: NameService,
-    private streetMap: StreetMap
+    private streetMap: StreetMap,
+    private playerMap: PlayerMap,
+    private statBoard: StatBoard
   ) {
     this.vehicleSpawnService = new VehicleSpawnService(this.boardService, this.streetMap);
   }
@@ -48,8 +53,11 @@ export class VehicleService {
   }
 
   public generateVehicles() {
-    if (Math.random() < ServerConfig.VEHICLE.SPAWN_RATE) {
-      this.createVehicle();
-    }
+    this.playerMap.getPlayers().forEach((player: Player, playerId: string) => {
+      const rate = ServerConfig.VEHICLE.SPAWN_RATE * this.statBoard.getPopulation(player.id);
+      if (Math.random() < rate) {
+        this.createVehicle();
+      }
+    });
   }
 }
