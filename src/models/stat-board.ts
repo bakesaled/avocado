@@ -27,20 +27,12 @@ export class StatBoard {
     return this.getPlayerStats(playerId).population;
   }
 
-  public changePopulation() {
-    const rand = Math.random();
-    this.playerStatBoard.forEach((value: PlayerStats, playerId: string) => {
-      if (rand < 0.2) {
-        this.increasePopulation(playerId, 10);
-      }
-      else if (rand > 0.9) {
-        this.decreasePopulation(playerId, 10);
-      }
-    });
-  }
-
   public getPlayerStats(playerId: string) {
     return this.playerStatBoard.get(playerId);
+  }
+
+  public getBoard() {
+    return this.playerStatBoard;
   }
 
   public toJSON() {

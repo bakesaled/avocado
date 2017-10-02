@@ -4,6 +4,7 @@ import Socket = SocketIO.Socket;
 import { BoardConfig } from '../configs/board.config';
 import { PlayerMap } from '../models/player-map';
 import { StatBoard } from '../models/stat-board';
+import { PlayerStats } from '../models/player-stats';
 
 export class PlayerService {
   constructor(
@@ -29,6 +30,18 @@ export class PlayerService {
     }
 
     this.playerMap.removePlayer(player.id);
+  }
+
+  public changePopulations() {
+    this.playerStatBoard.getBoard().forEach((value: PlayerStats, playerId: string) => {
+      const rand = Math.random();
+      if (rand < 0.2) {
+        this.playerStatBoard.increasePopulation(playerId, 10);
+      }
+      else if (rand > 0.9) {
+        this.playerStatBoard.decreasePopulation(playerId, 10);
+      }
+    });
   }
 
   private createPlayer(id: string, name: string) {

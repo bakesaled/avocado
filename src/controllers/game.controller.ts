@@ -70,7 +70,7 @@ export class GameController {
       return;
     }
 
-    this.statBoard.changePopulation();
+    this.playerService.changePopulations();
     this.vehicleService.moveVehicles();
     this.vehicleService.generateVehicles();
 
