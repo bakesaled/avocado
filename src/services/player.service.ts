@@ -5,6 +5,7 @@ import { BoardConfig } from '../configs/board.config';
 import { PlayerMap } from '../models/player-map';
 import { StatBoard } from '../models/stat-board';
 import { PlayerStats } from '../models/player-stats';
+import { ServerConfig } from '../configs/server.config';
 
 export class PlayerService {
   constructor(
@@ -41,6 +42,13 @@ export class PlayerService {
       else if (rand > 0.9) {
         this.playerStatBoard.decreasePopulation(playerId, 10);
       }
+    });
+  }
+
+  public collectTax() {
+    this.playerStatBoard.getBoard().forEach((value: PlayerStats, playerId: string) => {
+      const population = this.playerStatBoard.getPopulation(playerId);
+      this.playerStatBoard.addCash(playerId, population / ServerConfig.TOWN.HOUSEHOLD_SIZE * 10000 * ServerConfig.TOWN.TAX_RATE)
     });
   }
 

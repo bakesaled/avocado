@@ -26,6 +26,7 @@ export class GameController {
   private streetService: StreetService;
   private playerMap: PlayerMap;
   private statBoard: StatBoard;
+  private cycleCount: number = 0;
 
   constructor() {
     this.levelConfig = new Level1Config();
@@ -61,6 +62,7 @@ export class GameController {
   public runGameCycle(socket: Socket) {
     if (this.playerMap.getNumberOfPlayers() === 0) {
       console.log('game paused');
+      this.cycleCount = 0;
       this.boardService.initializeBoards();
       this.nameService.reinitialize();
       this.playerMap.reinitialize();
@@ -71,6 +73,12 @@ export class GameController {
     }
 
     this.playerService.changePopulations();
+
+    this.cycleCount++;
+    if (this.cycleCount === ServerConfig.TOWN.TAX_FREQUENCY) {
+      this.playerService.collectTax();
+      this.cycleCount = 0;
+    }
     this.vehicleService.moveVehicles();
     this.vehicleService.generateVehicles();
 

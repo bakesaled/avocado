@@ -3,6 +3,11 @@ export const ServerConfig = {
   VEHICLE: {
     SPAWN_RATE: 0.01
   },
+  TOWN: {
+    TAX_RATE: 0.05,
+    TAX_FREQUENCY: 100,
+    HOUSEHOLD_SIZE: 2.5
+  },
   IO: {
     CONNECTION: 'connection',
     INCOMING: {

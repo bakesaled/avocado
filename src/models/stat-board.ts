@@ -27,6 +27,10 @@ export class StatBoard {
     return this.getPlayerStats(playerId).population;
   }
 
+  public addCash(playerId: string, amount: number) {
+    this.playerStatBoard.get(playerId).addCash(amount);
+  }
+
   public getPlayerStats(playerId: string) {
     return this.playerStatBoard.get(playerId);
   }
